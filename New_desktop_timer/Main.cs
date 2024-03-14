@@ -11,6 +11,8 @@ namespace New_desktop_timer
         {
             InitializeComponent();
             Read_parent_data();
+            this.MaximumSize = this.Size;
+            this.MinimumSize = this.Size;
         }
 
         private TimeSpan Parent_cur_timespan;
@@ -18,7 +20,7 @@ namespace New_desktop_timer
 
         private void Read_parent_data()
         {
-            StreamReader sr = new StreamReader(@"res\Parent_data.csv");//ƒtƒB[ƒ‹ƒhƒf[ƒ^“Ç‚İæ‚è
+            StreamReader sr = new StreamReader(@"res\Parent_data.csv");//ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ãƒ‡ãƒ¼ã‚¿èª­ã¿å–ã‚Š
             {
                 while (!sr.EndOfStream)
                 {
@@ -31,10 +33,10 @@ namespace New_desktop_timer
                         string[] work = liner.Split(",");
                         if (liner.Contains("TRUE"))
                         {
-                            //ƒ^ƒCƒ}[ƒ‰ƒxƒ‹•ÏŠ·ˆ—
+                            //ã‚¿ã‚¤ãƒãƒ¼ãƒ©ãƒ™ãƒ«å¤‰æ›å‡¦ç†
                             Parent_cur_timespan = TimeSpan.Parse(work[1]);
                             Common.curtime = Parent_cur_timespan;
-                            //ƒtƒ@ƒCƒ‹‚ğ‘{‚µ‚Ä“Ç‚İæ‚é
+                            //ãƒ•ã‚¡ã‚¤ãƒ«ã‚’æœã—ã¦èª­ã¿å–ã‚‹
                             Timer_label.Text = Ret_cur_file();
 
                         }
@@ -60,7 +62,7 @@ namespace New_desktop_timer
         private string Ret_cur_file()
         {
             string temp = "";
-            StreamReader sr = new StreamReader(@"res\origin.csv");//ƒtƒB[ƒ‹ƒhƒf[ƒ^“Ç‚İæ‚è
+            StreamReader sr = new StreamReader(@"res\origin.csv");//ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ãƒ‡ãƒ¼ã‚¿èª­ã¿å–ã‚Š
             {
 
                 while (!sr.EndOfStream)
@@ -129,19 +131,22 @@ namespace New_desktop_timer
             else
             {
                 new ToastContentBuilder()
-               .AddText("ƒ^ƒCƒ}[–—¹’Ê’m‚Å‚·")
+               .AddText("ã‚¿ã‚¤ãƒãƒ¼æº€äº†é€šçŸ¥ã§ã™")
                .Show();
             }
         }
 
         private void Timer_label_MouseClick(object sender, MouseEventArgs e)
         {
-            //İ’èƒtƒH[ƒ€‚ğŠJ‚­
+            //è¨­å®šãƒ•ã‚©ãƒ¼ãƒ ã‚’é–‹ã
+            count_cur_timer.Stop();
+            st_btn.Text = "ST";
             Form form = new form.Setting();
             form.TopLevel = false;
             form.FormBorderStyle = FormBorderStyle.None;
             main_panel.Controls.Add(form);
-            
+            this.MaximumSize = new Size(816, 489);
+            this.MinimumSize = new Size(816, 489);
             this.Size = new Size(816, 489);
             form.FormClosed += Closed_form;
             form.BringToFront();
@@ -150,14 +155,18 @@ namespace New_desktop_timer
 
         private void Closed_form(object? sender,EventArgs e)
         {
-            this.Size = new Size(150,140);
+            this.MaximumSize = new Size(150, 140);
+            this.MinimumSize = new Size(150, 140);
+            this.Size = new Size(150, 140);
+            if (Common.curtime==Parent_cur_timespan)return;
+            else
             Parent_cur_timespan=Common.curtime;
             Counting_cur_timespan = Common.curtime;
             Write_cur_counting() ;
 
             string[] work=new string[0];
 
-            StreamReader sr = new StreamReader(@"res\Parent_data.csv");//ƒtƒB[ƒ‹ƒhƒf[ƒ^“Ç‚İæ‚è
+            StreamReader sr = new StreamReader(@"res\Parent_data.csv");//ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ãƒ‡ãƒ¼ã‚¿èª­ã¿å–ã‚Š
             {
                 while (!sr.EndOfStream)
                 {
@@ -188,4 +197,3 @@ namespace New_desktop_timer
         }
     }
 }
-
